@@ -75,64 +75,108 @@ velocidade_saida["Alta"] = vel_sa_h
 velocidade_entrada.view()
 proximidade.view()
 posicao.view()
-direcao.view()
-velocidade_saida.view()
+#direcao.view()
+#velocidade_saida.view()
 
-# Definição das regras
-regra1 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Baixa"] & posicao["Esquerda"], direcao["Direita"] & velocidade_saida["Baixa"])
-regra2 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Baixa"] & posicao["Centro"], direcao[direcao_fixa] & velocidade_saida["Baixa"])
-regra3 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Baixa"] & posicao["Direita"], direcao["Esquerda"] & velocidade_saida["Baixa"])
+#------------------------------------------------------#
+# Definição das regras sobre direção
+regra1 = ctrl.Rule((proximidade["Perto"] & velocidade_entrada["Baixa"] & posicao["Esquerda"]), direcao["Direita"])
+regra2 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Baixa"] & posicao["Centro"], direcao[direcao_fixa])
+regra3 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Baixa"] & posicao["Direita"], direcao["Esquerda"])
 
-regra4 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Normal"] & posicao["Esquerda"], direcao["Direita"] & velocidade_saida["Baixa"])
-regra5 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Normal"] & posicao["Centro"], direcao[direcao_fixa] & velocidade_saida["Baixa"])
-regra6 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Normal"] & posicao["Direita"], direcao["Esquerda"] & velocidade_saida["Baixa"])
+regra4 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Normal"] & posicao["Esquerda"], direcao["Direita"])
+regra5 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Normal"] & posicao["Centro"], direcao[direcao_fixa])
+regra6 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Normal"] & posicao["Direita"], direcao["Esquerda"])
 
-regra7 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Alta"] & posicao["Esquerda"], direcao["Direita"] & velocidade_saida["Baixa"])
-regra8 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Alta"] & posicao["Centro"], direcao[direcao_fixa] & velocidade_saida["Baixa"])
-regra9 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Alta"] & posicao["Direita"], direcao["Esquerda"] & velocidade_saida["Baixa"])
+regra7 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Alta"] & posicao["Esquerda"], direcao["Direita"])
+regra8 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Alta"] & posicao["Centro"], direcao[direcao_fixa])
+regra9 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Alta"] & posicao["Direita"], direcao["Esquerda"])
+
+regra10 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Baixa"] & posicao["Esquerda"], direcao["Direita"])
+regra11 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Baixa"] & posicao["Centro"], direcao[direcao_fixa])
+regra12 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Baixa"] & posicao["Direita"], direcao["Esquerda"])
+
+regra13 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Normal"] & posicao["Esquerda"], direcao["Direita"])
+regra14 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Normal"] & posicao["Centro"], direcao[direcao_fixa])
+regra15 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Normal"] & posicao["Direita"], direcao["Esquerda"])
+
+regra16 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Alta"] & posicao["Esquerda"], direcao["Direita"])
+regra17 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Alta"] & posicao["Centro"], direcao[direcao_fixa])
+regra18 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Alta"] & posicao["Direita"], direcao["Esquerda"])
 
 
-regra10 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Baixa"] & posicao["Esquerda"], direcao["Direita"] & velocidade_saida["Normal"])
-regra11 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Baixa"] & posicao["Centro"], direcao[direcao_fixa] & velocidade_saida["Normal"])
-regra12 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Baixa"] & posicao["Direita"], direcao["Esquerda"] & velocidade_saida["Normal"])
+regra19 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Baixa"] & posicao["Esquerda"], direcao["Direita"])
+regra20 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Baixa"] & posicao["Centro"], direcao[direcao_fixa])
+regra21 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Baixa"] & posicao["Direita"], direcao["Esquerda"])
 
-regra13 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Normal"] & posicao["Esquerda"], direcao["Direita"] & velocidade_saida["Normal"])
-regra14 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Normal"] & posicao["Centro"], direcao[direcao_fixa] & velocidade_saida["Normal"])
-regra15 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Normal"] & posicao["Direita"], direcao["Esquerda"] & velocidade_saida["Normal"])
+regra22 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Normal"] & posicao["Esquerda"], direcao["Direita"])
+regra23 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Normal"] & posicao["Centro"], direcao[direcao_fixa])
+regra24 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Normal"] & posicao["Direita"], direcao["Esquerda"])
 
-regra16 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Alta"] & posicao["Esquerda"], direcao["Direita"] & velocidade_saida["Normal"])
-regra17 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Alta"] & posicao["Centro"], direcao[direcao_fixa] & velocidade_saida["Normal"])
-regra18 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Alta"] & posicao["Direita"], direcao["Esquerda"] & velocidade_saida["Normal"])
+regra25 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Alta"] & posicao["Esquerda"], direcao["Direita"])
+regra26 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Alta"] & posicao["Centro"], direcao[direcao_fixa])
+regra27 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Alta"] & posicao["Direita"], direcao["Esquerda"])
+
+#------------------------------------------------------#
+# Regras de sobre a velocidade
+regra28 = ctrl.Rule((proximidade["Perto"] & velocidade_entrada["Baixa"] & posicao["Esquerda"]), velocidade_saida["Baixa"])
+regra29 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Baixa"] & posicao["Centro"], velocidade_saida["Baixa"])
+regra30 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Baixa"] & posicao["Direita"], velocidade_saida["Baixa"])
+
+regra31 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Normal"] & posicao["Esquerda"], velocidade_saida["Baixa"])
+regra32 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Normal"] & posicao["Centro"], velocidade_saida["Baixa"])
+regra33 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Normal"] & posicao["Direita"], velocidade_saida["Baixa"])
+
+regra34 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Alta"] & posicao["Esquerda"], velocidade_saida["Baixa"])
+regra35 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Alta"] & posicao["Centro"], velocidade_saida["Baixa"])
+regra36 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Alta"] & posicao["Direita"], velocidade_saida["Baixa"])
 
 
-regra19 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Baixa"] & posicao["Esquerda"], direcao["Direita"] & velocidade_saida["Normal"])
-regra20 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Baixa"] & posicao["Centro"], direcao[direcao_fixa] & velocidade_saida["Normal"])
-regra21 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Baixa"] & posicao["Direita"], direcao["Esquerda"] & velocidade_saida["Normal"])
+regra37 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Baixa"] & posicao["Esquerda"], velocidade_saida["Normal"])
+regra38 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Baixa"] & posicao["Centro"], velocidade_saida["Normal"])
+regra39 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Baixa"] & posicao["Direita"], velocidade_saida["Normal"])
 
-regra22 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Normal"] & posicao["Esquerda"], direcao["Direita"] & velocidade_saida["Normal"])
-regra23 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Normal"] & posicao["Centro"], direcao[direcao_fixa] & velocidade_saida["Normal"])
-regra24 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Normal"] & posicao["Direita"], direcao["Esquerda"] & velocidade_saida["Normal"])
+regra40 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Normal"] & posicao["Esquerda"], velocidade_saida["Normal"])
+regra41 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Normal"] & posicao["Centro"], velocidade_saida["Normal"])
+regra42 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Normal"] & posicao["Direita"], velocidade_saida["Normal"])
 
-regra25 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Alta"] & posicao["Esquerda"], direcao["Direita"] & velocidade_saida["Normal"])
-regra26 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Alta"] & posicao["Centro"], direcao[direcao_fixa] & velocidade_saida["Normal"])
-regra27 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Alta"] & posicao["Direita"], direcao["Esquerda"] & velocidade_saida["Normal"])
+regra43 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Alta"] & posicao["Esquerda"], velocidade_saida["Normal"])
+regra44 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Alta"] & posicao["Centro"], velocidade_saida["Normal"])
+regra45 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Alta"] & posicao["Direita"], velocidade_saida["Normal"])
 
-regra28 = ctrl.Rule(None, velocidade_saida["Alta"])
-# --------------------------------------------------------------- #
+
+regra46 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Baixa"] & posicao["Esquerda"], velocidade_saida["Normal"])
+regra47 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Baixa"] & posicao["Centro"], velocidade_saida["Normal"])
+regra48 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Baixa"] & posicao["Direita"], velocidade_saida["Normal"])
+
+regra49 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Normal"] & posicao["Esquerda"], velocidade_saida["Normal"])
+regra50 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Normal"] & posicao["Centro"], velocidade_saida["Normal"])
+regra51 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Normal"] & posicao["Direita"], velocidade_saida["Normal"])
+
+regra52 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Alta"] & posicao["Esquerda"], velocidade_saida["Normal"])
+regra53 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Alta"] & posicao["Centro"], velocidade_saida["Normal"])
+regra54 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Alta"] & posicao["Direita"], velocidade_saida["Normal"])
+
 lista_regras = [regra1, regra2, regra3, regra4, regra5, regra6, regra7, regra8, regra9,
                 regra10, regra11, regra12, regra13, regra14, regra15, regra16, regra17, regra18,
                 regra19, regra20, regra21, regra22, regra23, regra24, regra25, regra26, regra27,
-                regra28]
-controle = ctrl.ControlSystem(lista_regras)
-simulacao = ctrl.ControlSystemSimulation(controle)
+                regra28, regra29, regra30, regra31, regra32, regra33, regra34, regra35, regra36,
+                regra37, regra38, regra39, regra40, regra41, regra42, regra43, regra44, regra45,
+                regra46, regra47, regra48, regra49, regra50, regra51, regra52, regra53, regra54]
 
-# simulacao.input["Velocidade de Entrada"] = 3
-# simulacao.input["Posição"] = 5
+controle= ctrl.ControlSystem(lista_regras)
+simulacao= ctrl.ControlSystemSimulation(controle)
+
+
+simulacao.input["Velocidade de Entrada"] = 8
+simulacao.input["Proximidade"] = 3
+simulacao.input["Posição"] = 5
+
 simulacao.compute()
 
-print(simulacao.output["Direção"])
+print("Direção: ", simulacao.output["Direção"])
 direcao.view(sim=simulacao)
-print(simulacao.output["Velocidade de Saida"])
+print("Velocidade: ", simulacao.output["Velocidade de Saida"])
 velocidade_saida.view(sim=simulacao)
 
 plt.show()
