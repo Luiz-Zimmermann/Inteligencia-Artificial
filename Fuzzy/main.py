@@ -8,13 +8,13 @@ lenght = np.arange(0, 11, 1)
 direcao_fixa = "Direita"
 
 # Entradas
-velocidade_entrada = np.arange(0,11,1)
-proximidade = np.arange(0,11,1)
-posicao = np.arange(0,11,1)
+velocidade_entrada = lenght
+proximidade = lenght
+posicao = lenght
 
 # Saídas
-direcao = np.arange(0,11,1)
-velocidade_saida = np.arange(0,11,1)
+direcao = lenght
+velocidade_saida = lenght
 
 #### Fuzzyficação ####
 # trimf = triângulo, trampf = trapézio
@@ -71,13 +71,8 @@ velocidade_saida["Baixa"] = vel_sa_l
 velocidade_saida["Normal"] = vel_sa_m
 velocidade_saida["Alta"] = vel_sa_h
 
-# Plota os graficos das entradas e saidas
-velocidade_entrada.view()
-proximidade.view()
-posicao.view()
-#direcao.view()
-#velocidade_saida.view()
 
+# Foi necessário criar o dobro de  (direção e velocidade) pois não tem como colocar 2 saidas na mesma regra.
 #------------------------------------------------------#
 # Definição das regras sobre direção
 regra1 = ctrl.Rule((proximidade["Perto"] & velocidade_entrada["Baixa"] & posicao["Esquerda"]), direcao["Direita"])
@@ -131,7 +126,6 @@ regra34 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Alta"] & posicao[
 regra35 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Alta"] & posicao["Centro"], velocidade_saida["Baixa"])
 regra36 = ctrl.Rule(proximidade["Perto"] & velocidade_entrada["Alta"] & posicao["Direita"], velocidade_saida["Baixa"])
 
-
 regra37 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Baixa"] & posicao["Esquerda"], velocidade_saida["Normal"])
 regra38 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Baixa"] & posicao["Centro"], velocidade_saida["Normal"])
 regra39 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Baixa"] & posicao["Direita"], velocidade_saida["Normal"])
@@ -143,7 +137,6 @@ regra42 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Normal"] & posic
 regra43 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Alta"] & posicao["Esquerda"], velocidade_saida["Normal"])
 regra44 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Alta"] & posicao["Centro"], velocidade_saida["Normal"])
 regra45 = ctrl.Rule(proximidade["Normal"] & velocidade_entrada["Alta"] & posicao["Direita"], velocidade_saida["Normal"])
-
 
 regra46 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Baixa"] & posicao["Esquerda"], velocidade_saida["Normal"])
 regra47 = ctrl.Rule(proximidade["Longe"] & velocidade_entrada["Baixa"] & posicao["Centro"], velocidade_saida["Normal"])
@@ -164,14 +157,23 @@ lista_regras = [regra1, regra2, regra3, regra4, regra5, regra6, regra7, regra8, 
                 regra37, regra38, regra39, regra40, regra41, regra42, regra43, regra44, regra45,
                 regra46, regra47, regra48, regra49, regra50, regra51, regra52, regra53, regra54]
 
+# Controle de regras
 controle= ctrl.ControlSystem(lista_regras)
+# Controlador da simulação
 simulacao= ctrl.ControlSystemSimulation(controle)
 
+simulacao.input["Velocidade de Entrada"] = float(input("Velocidade de entrada: "))
+simulacao.input["Proximidade"] = float(input("Distância do obstáculo: "))
+simulacao.input["Posição"] = float(input("Posição do obstáculo: "))
 
-simulacao.input["Velocidade de Entrada"] = 8
-simulacao.input["Proximidade"] = 3
-simulacao.input["Posição"] = 5
+# Plota os graficos das entradas e saidas
+velocidade_entrada.view()
+proximidade.view()
+posicao.view()
+#direcao.view()
+#velocidade_saida.view()
 
+# Executa a simulação
 simulacao.compute()
 
 print("Direção: ", simulacao.output["Direção"])
