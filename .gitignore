@@ -1,6 +1,6 @@
 .\vscode
-.\idea
-.\RBC\.venv
-.\RBC\.idea
-.\Fuzzy\.venv
-.\Fuzzy\.idea
+./idea
+./RBC/venv/
+./RBC/.idea
+./Fuzzy/venv/
+./Fuzzy/.idea
