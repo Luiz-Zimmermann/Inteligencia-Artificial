@@ -105,7 +105,7 @@ class HeartDisease():
     def similarityThal(self, entry): 
         return 1 if self.thal == entry else 0
     
-    def vns(self, entry, numberCases, weights):   # Variable Neighborhood Search = Algorítmo de Busca por Vizinhaça
+    def vns(self, entry, weights):   # Variable Neighborhood Search = Algorítmo de Busca por Vizinhaça
         """
         #  SOMA(Wi * sim(fl, fr)) / SOMA(Wi)
         #   - W: Peso do atributo
@@ -113,4 +113,20 @@ class HeartDisease():
         #   - fl: Valor do atributo (i) para o caso da base
         #   - fr: Valor do atributo (i) para o caso problema
         """
-        pass
+        similarity = (
+            (weights[0] * self.similarityAge(entry[0])) +
+            (weights[1] * self.similaritySex(entry[1])) +
+            (weights[2] * self.similarityCp(entry[2])) +
+            (weights[3] * self.similarityTrestbps(entry[3])) +
+            (weights[4] * self.similarityChol(entry[4])) +
+            (weights[5] * self.similarityFbs(entry[5])) +
+            (weights[6] * self.similarityRestecg(entry[6])) +
+            (weights[7] * self.similarityThalach(entry[7])) +
+            (weights[8] * self.similarityExang(entry[8])) +
+            (weights[9] * self.similarityOldpeak(entry[9])) +
+            (weights[10] * self.similaritySlope(entry[10])) +
+            (weights[11] * self.similarityCa(entry[11])) +
+            (weights[12] * self.similarityThal(entry[12]))
+        )/sum(weights)
+
+        return similarity
