@@ -1,34 +1,37 @@
 class HeartDisease():
     age = 0.0             # Idade
-    sex = 0            # Sexo
-    cp = ""             # Tipo de dor peitoral
-    trestbps = 0        # Pressão sanguínea
-    chol = 0            # Colesterol sérico
-    fbs = False         # Glicose >120mg/dL
-    restecg = ""        # Resultados eletrocardiograficos
-    thalach = 150       # Frequência cardíaca máxima
-    exang = False       # Angina induzida por exercício?
-    oldpeak = False     # Depressão no segmento ST induzida por exercício
-    slope = ""          # Inclinação no pico do segmento ST
-    ca = 0              # Número de artérias visíveis
-    thal = 3            # Viabilidade miocardica com talio
-    result = 0     # Resultado
+    sex = 0.0            # Sexo
+    cp = 0.0             # Tipo de dor peitoral
+    trestbps = 0.0        # Pressão sanguínea
+    chol = 0.0            # Colesterol sérico
+    fbs = 0.0         # Glicose >120mg/dL
+    restecg = 0.0        # Resultados eletrocardiograficos
+    thalach = 150.0       # Frequência cardíaca máxima
+    exang = 0.0       # Angina induzida por exercício?
+    oldpeak = 0.0     # Depressão no segmento ST induzida por exercício
+    slope = 0.0          # Inclinação no pico do segmento ST
+    ca = 0.0              # Número de artérias visíveis
+    thal = 3.0            # Viabilidade miocardica com talio
+    result = 0.0     # Resultado
 
 
     def __init__(self, case):
-        self.age = case[0]
-        self.sex = case[1] 
-        self.cp = case[2] 
-        self.trestbps = case[3] 
-        self.chol = case[4] 
-        self.fbs = case[5] 
-        self.restecg = case[6] 
-        self.thalach = case[7] 
-        self.exang = case[8] 
-        self.oldpeak = case[9] 
-        self.slope = case[10] 
-        self.ca = case[11] 
-        self.thal = case[12] 
+        try:
+            self.age = float(case[0])
+            self.sex = float(case[1])
+            self.cp = float(case[2])
+            self.trestbps = float(case[3])
+            self.chol = float(case[4])
+            self.fbs = float(case[5])
+            self.restecg = float(case[6])
+            self.thalach = float(case[7])
+            self.exang = float(case[8])
+            self.oldpeak = float(case[9])
+            self.slope = float(case[10])
+            self.ca = float(case[11])
+            self.thal = float(case[12])
+        except (ValueError, RuntimeError, TypeError, NameError) as erro:
+            print("Erro na atribuição das variavies ao objeto: {0}".format(erro))
 
     def similarityAge(self, entry): # Float (0.0 ~ 100.0)
        return 1 - ( abs(self.age - entry) / (100) )
@@ -113,8 +116,7 @@ class HeartDisease():
         #   - fl: Valor do atributo (i) para o caso da base
         #   - fr: Valor do atributo (i) para o caso problema
         """
-        print("Entradas: ", entry)
-        print("Pesos: ", weights)
+
         try:
 
             similarity = (
@@ -132,7 +134,7 @@ class HeartDisease():
                 (float(weights[11]) * self.similarityCa(float(entry[11]))) +
                 (float(weights[12]) * self.similarityThal(float(entry[12])))
             )/float(sum(weights))
-        except:
-            print("Erro no calculo de similaridade")
+        except (ValueError, RuntimeError, TypeError, NameError) as erro:
+            print("Erro no calculo de similaridade: {0}".format(erro))
 
         return similarity

@@ -16,25 +16,13 @@ Protótipo de RBC -> Diagnóstico de Pacientes com Possíveis Problemas Cardíac
 
 
 def buildObject(obj, data, entry, weights):
+
     try:
-        obj.age = data[0]
-        obj.sex = data[1]
-        obj.cp = data[2]
-        obj.trestbps = data[3]
-        obj.chol = data[4]
-        obj.fbs = data[5]
-        obj.restecg = data[6]
-        obj.thalach = data[7]
-        obj.exang = data[8]
-        obj.oldpeak = data[9]
-        obj.slope = data[10]
-        obj.ca = data[11]
-        obj.thal = data[12]
+        caso = obj(data)
+        return caso, caso.vns(entry, weights)
 
-        return obj, obj.vns(entry, weights)
-
-    except:
-        print("Erro no try, buildObject")
+    except (ValueError, RuntimeError, TypeError, NameError) as erro:
+        print("Erro em main.buildObject: {0}".format(erro))
         return
 
 
@@ -52,26 +40,25 @@ def init(entry, weights):
 
             casos.append(caso)
             sim.append(similaridade)
-    except:
-        print("Erro no for init")
+    except (ValueError, RuntimeError, TypeError, NameError) as erro:
+        print("Erro em na chamada para construir os objetos, main.init: {0}".format(erro))
         return
 
-    print("Casos init: ", casos)
-    print("Sim init: ", sim)
-
-    """
     casos10 = []
     simil10 = []
-    
-    for i in range(10):
 
-        # retorna o indice do caso que tem a maior similaridade
-        index = np.argmax(sim)
-        casos10.append(casos[index])
-        simil10.append(sim[index])
+    try:
+        for i in range(10):
 
-        # Atribui zero para posteriormente encontrar os proximos maximos
-        sim[index] = 0
+            # retorna o indice do caso que tem a maior similaridade
+            index = np.argmax(sim)
+            casos10.append(casos[index])
+            simil10.append(sim[index])
 
-    return casos10, simil10
-    """
+            # Atribui zero para posteriormente encontrar os proximos maximos
+            sim[index] = 0
+
+        return casos10, simil10
+    except (ValueError, RuntimeError, TypeError, NameError) as erro:
+        print("Erro em recuperar os primeiros 10 casos, main.init: {0}".format(erro))
+        return
