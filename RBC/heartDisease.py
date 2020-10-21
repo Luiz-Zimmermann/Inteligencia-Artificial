@@ -113,20 +113,26 @@ class HeartDisease():
         #   - fl: Valor do atributo (i) para o caso da base
         #   - fr: Valor do atributo (i) para o caso problema
         """
-        similarity = (
-            (weights[0] * self.similarityAge(entry[0])) +
-            (weights[1] * self.similaritySex(entry[1])) +
-            (weights[2] * self.similarityCp(entry[2])) +
-            (weights[3] * self.similarityTrestbps(entry[3])) +
-            (weights[4] * self.similarityChol(entry[4])) +
-            (weights[5] * self.similarityFbs(entry[5])) +
-            (weights[6] * self.similarityRestecg(entry[6])) +
-            (weights[7] * self.similarityThalach(entry[7])) +
-            (weights[8] * self.similarityExang(entry[8])) +
-            (weights[9] * self.similarityOldpeak(entry[9])) +
-            (weights[10] * self.similaritySlope(entry[10])) +
-            (weights[11] * self.similarityCa(entry[11])) +
-            (weights[12] * self.similarityThal(entry[12]))
-        )/sum(weights)
+        print("Entradas: ", entry)
+        print("Pesos: ", weights)
+        try:
+
+            similarity = (
+                (float(weights[0]) * self.similarityAge(float(entry[0]))) +
+                (float(weights[1]) * self.similaritySex(float(entry[1]))) +
+                (float(weights[2]) * self.similarityCp(float(entry[2]))) +
+                (float(weights[3]) * self.similarityTrestbps(float(entry[3]))) +
+                (float(weights[4]) * self.similarityChol(float(entry[4]))) +
+                (float(weights[5]) * self.similarityFbs(float(entry[5]))) +
+                (float(weights[6]) * self.similarityRestecg(float(entry[6]))) +
+                (float(weights[7]) * self.similarityThalach(float(entry[7]))) +
+                (float(weights[8]) * self.similarityExang(float(entry[8]))) +
+                (float(weights[9]) * self.similarityOldpeak(float(entry[9]))) +
+                (float(weights[10]) * self.similaritySlope(float(entry[10]))) +
+                (float(weights[11]) * self.similarityCa(float(entry[11]))) +
+                (float(weights[12]) * self.similarityThal(float(entry[12])))
+            )/float(sum(weights))
+        except:
+            print("Erro no calculo de similaridade")
 
         return similarity

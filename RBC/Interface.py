@@ -3,6 +3,9 @@ from PyQt5.QtWidgets import QMainWindow, QLineEdit, QHeaderView, QApplication, Q
     QTableWidgetItem, \
     QVBoxLayout, QHBoxLayout, QGridLayout, QPushButton, QLabel
 import sys
+import main
+
+
 
 """
 https://pythonspot.com/pyqt5-textbox-example/
@@ -32,8 +35,8 @@ class App(QWidget):
         self.createTable()
 
 
-        firstLineLayout = QHBoxLayout()
-        secondLineLayout = QHBoxLayout()
+        self.firstLineLayout = QHBoxLayout()
+        self.secondLineLayout = QHBoxLayout()
         inputsLayout = QVBoxLayout()
 
         # Input para cada atributo
@@ -73,27 +76,27 @@ class App(QWidget):
         self.w_eletro = QLineEdit()
         self.w_eletro.setFixedWidth(20)
 
-        firstLineLayout.addWidget(self.label_age)
-        firstLineLayout.addWidget(self.w_age)
-        firstLineLayout.addWidget(self.age)
-        firstLineLayout.addWidget(self.label_sexo)
-        firstLineLayout.addWidget(self.w_sexo)
-        firstLineLayout.addWidget(self.sexo)
-        firstLineLayout.addWidget(self.label_dor)
-        firstLineLayout.addWidget(self.w_dor)
-        firstLineLayout.addWidget(self.tipo_dor)
-        firstLineLayout.addWidget(self.label_pressao)
-        firstLineLayout.addWidget(self.w_pressao)
-        firstLineLayout.addWidget(self.pressao)
-        firstLineLayout.addWidget(self.label_col)
-        firstLineLayout.addWidget(self.w_col)
-        firstLineLayout.addWidget(self.colesterol)
-        firstLineLayout.addWidget(self.label_glic)
-        firstLineLayout.addWidget(self.w_glic)
-        firstLineLayout.addWidget(self.glicose)
-        firstLineLayout.addWidget(self.label_eletro)
-        firstLineLayout.addWidget(self.w_eletro)
-        firstLineLayout.addWidget(self.eletro)
+        self.firstLineLayout.addWidget(self.label_age)
+        self.firstLineLayout.addWidget(self.w_age)
+        self.firstLineLayout.addWidget(self.age)
+        self.firstLineLayout.addWidget(self.label_sexo)
+        self.firstLineLayout.addWidget(self.w_sexo)
+        self.firstLineLayout.addWidget(self.sexo)
+        self.firstLineLayout.addWidget(self.label_dor)
+        self.firstLineLayout.addWidget(self.w_dor)
+        self.firstLineLayout.addWidget(self.tipo_dor)
+        self.firstLineLayout.addWidget(self.label_pressao)
+        self.firstLineLayout.addWidget(self.w_pressao)
+        self.firstLineLayout.addWidget(self.pressao)
+        self.firstLineLayout.addWidget(self.label_col)
+        self.firstLineLayout.addWidget(self.w_col)
+        self.firstLineLayout.addWidget(self.colesterol)
+        self.firstLineLayout.addWidget(self.label_glic)
+        self.firstLineLayout.addWidget(self.w_glic)
+        self.firstLineLayout.addWidget(self.glicose)
+        self.firstLineLayout.addWidget(self.label_eletro)
+        self.firstLineLayout.addWidget(self.w_eletro)
+        self.firstLineLayout.addWidget(self.eletro)
 
         # Segunda linha
 
@@ -130,28 +133,28 @@ class App(QWidget):
         pesquisa = QPushButton("&Pesquisar")
         pesquisa.clicked.connect(self.search)
 
-        secondLineLayout.addWidget(self.label_freq)
-        secondLineLayout.addWidget(self.w_freq)
-        secondLineLayout.addWidget(self.freq)
-        secondLineLayout.addWidget(self.label_exerc)
-        secondLineLayout.addWidget(self.w_exerc)
-        secondLineLayout.addWidget(self.angina_exerc)
-        secondLineLayout.addWidget(self.label_ST)
-        secondLineLayout.addWidget(self.w_ST)
-        secondLineLayout.addWidget(self.depre_ST)
-        secondLineLayout.addWidget(self.label_incli)
-        secondLineLayout.addWidget(self.w_incli)
-        secondLineLayout.addWidget(self.inclinacao)
-        secondLineLayout.addWidget(self.label_arte)
-        secondLineLayout.addWidget(self.w_arte)
-        secondLineLayout.addWidget(self.num_arterias)
-        secondLineLayout.addWidget(self.label_talio)
-        secondLineLayout.addWidget(self.w_talio)
-        secondLineLayout.addWidget(self.mio_talio)
-        secondLineLayout.addWidget(pesquisa)
+        self.secondLineLayout.addWidget(self.label_freq)
+        self.secondLineLayout.addWidget(self.w_freq)
+        self.secondLineLayout.addWidget(self.freq)
+        self.secondLineLayout.addWidget(self.label_exerc)
+        self.secondLineLayout.addWidget(self.w_exerc)
+        self.secondLineLayout.addWidget(self.angina_exerc)
+        self.secondLineLayout.addWidget(self.label_ST)
+        self.secondLineLayout.addWidget(self.w_ST)
+        self.secondLineLayout.addWidget(self.depre_ST)
+        self.secondLineLayout.addWidget(self.label_incli)
+        self.secondLineLayout.addWidget(self.w_incli)
+        self.secondLineLayout.addWidget(self.inclinacao)
+        self.secondLineLayout.addWidget(self.label_arte)
+        self.secondLineLayout.addWidget(self.w_arte)
+        self.secondLineLayout.addWidget(self.num_arterias)
+        self.secondLineLayout.addWidget(self.label_talio)
+        self.secondLineLayout.addWidget(self.w_talio)
+        self.secondLineLayout.addWidget(self.mio_talio)
+        self.secondLineLayout.addWidget(pesquisa)
 
-        inputsLayout.addLayout(firstLineLayout)
-        inputsLayout.addLayout(secondLineLayout)
+        inputsLayout.addLayout(self.firstLineLayout)
+        inputsLayout.addLayout(self.secondLineLayout)
 
         # Add box layout, add table to box layout and add box layout to widget
         mainLayout = QGridLayout()
@@ -162,6 +165,7 @@ class App(QWidget):
 
         # Show widget
         self.show()
+
 
     def createTable(self):
         # Create table
@@ -188,7 +192,48 @@ class App(QWidget):
 
     @pyqtSlot()
     def search(self):
-        print("pesquisa", self.age.text())
+        weights = []
+        att = []
+
+        # Recuperando os pesos
+        weights.append(self.w_age.text())
+        weights.append(self.w_sexo.text())
+        weights.append(self.w_dor.text())
+        weights.append(self.w_pressao.text())
+        weights.append(self.w_col.text())
+        weights.append(self.w_glic.text())
+        weights.append(self.w_eletro.text())
+        weights.append(self.w_freq.text())
+        weights.append(self.w_exerc.text())
+        weights.append(self.w_ST.text())
+        weights.append(self.w_incli.text())
+        weights.append(self.w_arte.text())
+        weights.append(self.w_talio.text())
+
+        # Recuperando os atributos
+        att.append(self.age.text())
+        att.append(self.sexo.text())
+        att.append(self.tipo_dor.text())
+        att.append(self.pressao.text())
+        att.append(self.colesterol.text())
+        att.append(self.glicose.text())
+        att.append(self.eletro.text())
+        att.append(self.freq.text())
+        att.append(self.angina_exerc.text())
+        att.append(self.depre_ST.text())
+        att.append(self.inclinacao.text())
+        att.append(self.num_arterias.text())
+        att.append(self.mio_talio.text())
+
+        top, simtop = main.init(att,weights)
+
+        print("Top 10: ", top)
+        print("Similaridade top 10", simtop)
+
+
+
+
+
 
 if __name__ == '__main__':
     app = QApplication([])
