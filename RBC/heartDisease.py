@@ -1,6 +1,6 @@
 class HeartDisease():
-    age = 0             # Idade
-    sex = ""            # Sexo
+    age = 0.0             # Idade
+    sex = 0            # Sexo
     cp = ""             # Tipo de dor peitoral
     trestbps = 0        # Pressão sanguínea
     chol = 0            # Colesterol sérico
@@ -30,79 +30,79 @@ class HeartDisease():
         self.ca = case[11] 
         self.thal = case[12] 
 
-    def similarityAge(self, entry):
+    def similarityAge(self, entry): # Float (0.0 ~ 100.0)
        return 1 - ( abs(self.age - entry) / (100) )
     
-    def similaritySex(self, entry):
+    def similaritySex(self, entry): # Float (0: Mulher / 1: Homem)
         return 1 if self.sex == entry else 0
 
-    def similarityCp(self, entry):
-        # asympt = assintomatico
-        # angina = angina tipica
-        # abnang = angina atipica
-        # notang = sem dor aginosa
+    def similarityCp(self, entry):  # Float
+        # 1.0 = angina = angina tipica
+        # 2.0 = abnang = angina atipica
+        # 3.0 = notang = sem dor aginosa
+        # 4.0 = asympt = assintomatico
         if self.cp == entry: return 1
 
-        if entry == "angina":   # angina tipica
-            if self.cp == "abnang": return 0.4
-            if self.cp == "notang": return 0.2
+        if entry == 1:   # angina tipica
+            if self.cp == 2: return 0.4
+            if self.cp == 3: return 0.2
             else: return 0
-        elif entry == "abnang":  # angina atipica
-            if self.cp == "angina": return 0.4
-            if self.cp == "notang": return 0.6
+        elif entry == 2:  # angina atipica
+            if self.cp == 1: return 0.4
+            if self.cp == 3: return 0.6
             else: return 0
-        elif entry == "notang":  # sem dor anginosa
-            if self.cp == "angina": return 0.2
-            if self.cp == "abnang": return 0.6
+        elif entry == 3:  # sem dor anginosa
+            if self.cp == 1: return 0.2
+            if self.cp == 2: return 0.6
             else: return 0
         else: return 0   # assintomatico
 
-    def similarityTrestbps(self, entry):
+    def similarityTrestbps(self, entry): # Float (0.0 ~ 200.0)
         return 1 - ( abs(self.trestbps - entry) / (self.trestbps + entry) )
     
-    def similarityChol(self, entry):
+    def similarityChol(self, entry):    # Float (0.0 ~ 417.00)
         return 1 - ( abs(self.chol - entry) / (self.chol + entry) )
 
-    def similarityFbs(self, entry): 
+    def similarityFbs(self, entry):     # Float (0: False / 1: True)
         return 1 if self.fbs == entry else 0
 
-    def similarityRestecg(self, entry):
-        # norm = normal
-        # abn = anormalidade no segmento ST-T
-        # hyper = hipertrofia ventricular esquerda
+    def similarityRestecg(self, entry): # Float
+        # 0.0 = norm = normal
+        # 1.0 = abn = anormalidade no segmento ST-T
+        # 2.0 = hyper = hipertrofia ventricular esquerda
         if self.restecg == entry: return 1
 
-        if entry == "norm":   # normal
-            if self.restecg == "abn": return 0
+        if entry == 0:   # normal
+            if self.restecg == 1: return 0
             else: return 0.4    # hyper
-        elif entry == "abn":  # anormalidade no segmento ST-T
-            if self.restecg == "norm": return 0
+        elif entry == 1:  # anormalidade no segmento ST-T
+            if self.restecg == 0: return 0
             else: return 0.6    # hyper
         else:
-            if self.restecg == "norm": return 0.4
+            if self.restecg == 0: return 0.4
             else: return 0.6    # abn
 
-    def similarityThalach(self, entry):
+    def similarityThalach(self, entry): # Float (0.0 ~ 250)
         return 1 - ( abs(self.thalach - entry) / (self.thalach + entry) )
 
-    def similarityExang(self, entry): 
+    def similarityExang(self, entry): # Float (0: False / 1: True)
         return 1 if self.exang == entry else 0
 
-    def similarityOldpeak(self, entry): 
+    def similarityOldpeak(self, entry): # Float
         return 1 if self.oldpeak == entry else 0
 
-    def similaritySlope(self, entry):
-        # down = inclinado para baixo
-        # flat = plano
-        # up = inclinado para cima
+    def similaritySlope(self, entry):   # Float
+        # 3.0 = down = inclinado para baixo
+        # 2.0 = flat = plano
+        # 1.0 = up = inclinado para cima
         if self.slope == entry: return 1
-        elif entry == "plan" or self.slope == "plan": return 0.5
+        elif entry == 2 or self.slope == 2: return 0.5
         else: return 0
     
-    def similarityCa(self, entry):
+    def similarityCa(self, entry):  # Float (0.0 ~ 3.0)
         return 1 - ( abs(self.ca - entry) / (self.ca + entry) )
 
-    def similarityThal(self, entry): 
+    def similarityThal(self, entry): # Float (3.0: sick, 6.0: fix, 7.0: rev)
         return 1 if self.thal == entry else 0
     
     def vns(self, entry, weights):   # Variable Neighborhood Search = Algorítmo de Busca por Vizinhaça
