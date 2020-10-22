@@ -1,20 +1,4 @@
 class HeartDisease():
-    age = 0.0             # Idade
-    sex = 0.0            # Sexo
-    cp = 0.0             # Tipo de dor peitoral
-    trestbps = 0.0        # Pressão sanguínea
-    chol = 0.0            # Colesterol sérico
-    fbs = 0.0         # Glicose >120mg/dL
-    restecg = 0.0        # Resultados eletrocardiograficos
-    thalach = 150.0       # Frequência cardíaca máxima
-    exang = 0.0       # Angina induzida por exercício?
-    oldpeak = 0.0     # Depressão no segmento ST induzida por exercício
-    slope = 0.0          # Inclinação no pico do segmento ST
-    ca = 0.0              # Número de artérias visíveis
-    thal = 3.0            # Viabilidade miocardica com talio
-    result = 0.0     # Resultado
-
-
     def __init__(self, case):
         try:
             self.age = float(case[0])
@@ -33,12 +17,15 @@ class HeartDisease():
         except (ValueError, RuntimeError, TypeError, NameError) as erro:
             print("Erro na atribuição das variavies ao objeto: {0}".format(erro))
 
+    # Idade (age)
     def similarityAge(self, entry): # Float (0.0 ~ 100.0)
        return 1 - ( abs(self.age - entry) / (100) )
     
+    # Sexo (sex)
     def similaritySex(self, entry): # Float (0: Mulher / 1: Homem)
         return 1 if self.sex == entry else 0
 
+    # Tipo de dor peitoral (cp)
     def similarityCp(self, entry):  # Float
         # 1.0 = angina = angina tipica
         # 2.0 = abnang = angina atipica
@@ -60,15 +47,19 @@ class HeartDisease():
             else: return 0
         else: return 0   # assintomatico
 
+    # Pressão sanguínea (trestbps)
     def similarityTrestbps(self, entry): # Float (0.0 ~ 200.0)
         return 1 - ( abs(self.trestbps - entry) / (self.trestbps + entry) )
     
+    # Colesterol sérico (chol)
     def similarityChol(self, entry):    # Float (0.0 ~ 417.00)
         return 1 - ( abs(self.chol - entry) / (self.chol + entry) )
 
+    # Glicose no sangue > 120mg/DL (fbs)
     def similarityFbs(self, entry):     # Float (0: False / 1: True)
         return 1 if self.fbs == entry else 0
 
+    # Resultados eletrocardiograficos (restecg)
     def similarityRestecg(self, entry): # Float
         # 0.0 = norm = normal
         # 1.0 = abn = anormalidade no segmento ST-T
@@ -85,15 +76,19 @@ class HeartDisease():
             if self.restecg == 0: return 0.4
             else: return 0.6    # abn
 
+    # Frequência cardíaca máxima (thalach)
     def similarityThalach(self, entry): # Float (0.0 ~ 250)
         return 1 - ( abs(self.thalach - entry) / (self.thalach + entry) )
 
+    # Angina induzida por exercício (exang)
     def similarityExang(self, entry): # Float (0: False / 1: True)
         return 1 if self.exang == entry else 0
 
-    def similarityOldpeak(self, entry): # Float
+    # # Depressão no segmento ST induzida por exercício (oldpeak)
+    def similarityOldpeak(self, entry): # Float (0.0)
         return 1 if self.oldpeak == entry else 0
 
+    # Inclinação no pico do segmento ST (slope)
     def similaritySlope(self, entry):   # Float
         # 3.0 = down = inclinado para baixo
         # 2.0 = flat = plano
@@ -101,13 +96,16 @@ class HeartDisease():
         if self.slope == entry: return 1
         elif entry == 2 or self.slope == 2: return 0.5
         else: return 0
-    
+
+    # Número de artérias visíveis (ca)
     def similarityCa(self, entry):  # Float (0.0 ~ 3.0)
         return 1 - ( abs(self.ca - entry) / (self.ca + entry) )
 
+    # Viabilidade miocardica com talio (thal)
     def similarityThal(self, entry): # Float (3.0: sick, 6.0: fix, 7.0: rev)
         return 1 if self.thal == entry else 0
     
+    # Diagnóstico
     def vns(self, entry, weights):   # Variable Neighborhood Search = Algorítmo de Busca por Vizinhaça
         """
         #  SOMA(Wi * sim(fl, fr)) / SOMA(Wi)
