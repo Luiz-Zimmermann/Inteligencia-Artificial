@@ -14,6 +14,8 @@ class HeartDisease():
             self.slope = float(case[10])
             self.ca = float(case[11])
             self.thal = float(case[12])
+            self.result = float(case[13])
+
         except (ValueError, RuntimeError, TypeError, NameError) as erro:
             print("Erro na atribuição das variavies ao objeto: {0}".format(erro))
 
@@ -49,13 +51,13 @@ class HeartDisease():
 
     # Pressão sanguínea (trestbps)
     def similarityTrestbps(self, entry): # Float (0.0 ~ 200.0)
-        return 1 - ( abs(self.trestbps - entry) / (self.trestbps + entry) )
+        return 1 - ( abs(self.trestbps - entry) / (self.trestbps + entry))
     
     # Colesterol sérico (chol)
     def similarityChol(self, entry):    # Float (0.0 ~ 417.00)
-        return 1 - ( abs(self.chol - entry) / (self.chol + entry) )
+        return 1 - ( abs(self.chol - entry) / (self.chol + entry))
 
-    # Glicose no sangue > 120mg/DL (fbs)
+    # Glicose no sangue > 120mg/dL (fbs)
     def similarityFbs(self, entry):     # Float (0: False / 1: True)
         return 1 if self.fbs == entry else 0
 
@@ -86,7 +88,7 @@ class HeartDisease():
 
     # # Depressão no segmento ST induzida por exercício (oldpeak)
     def similarityOldpeak(self, entry): # Float (0.0)
-        return 1 if self.oldpeak == entry else 0
+        return 1 - (abs(self.oldpeak - entry) / (self.ca + entry))
 
     # Inclinação no pico do segmento ST (slope)
     def similaritySlope(self, entry):   # Float

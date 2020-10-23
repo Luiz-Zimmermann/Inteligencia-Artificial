@@ -1,10 +1,10 @@
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QMainWindow, QLineEdit, QHeaderView, QApplication, QWidget, QAction, QTableWidget, \
     QTableWidgetItem, \
     QVBoxLayout, QHBoxLayout, QGridLayout, QPushButton, QLabel
 import sys
 import main
-
 
 
 """
@@ -13,9 +13,8 @@ https://stackoverflow.com/questions/38098763/pyside-pyqt-how-to-make-set-qtablew
 https://pythonspot.com/pyqt5-table/
 https://pythonbasics.org/pyqt-table/
 https://build-system.fman.io/pyqt5-tutorial
-
+https://www.learnpyqt.com/courses/adanced-ui-features/creating-multiple-windows/
 """
-
 
 class App(QWidget):
 
@@ -24,16 +23,13 @@ class App(QWidget):
         self.title = "Modelo RBC"
         self.left = 0
         self.top = 0
-        self.width = 1580
-        self.height = 500
+        self.width = 1540
+        self.height = 420
         self.initUI()
 
     def initUI(self):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
-
-
-
 
         self.firstLineLayout = QHBoxLayout()
         self.secondLineLayout = QHBoxLayout()
@@ -102,7 +98,6 @@ class App(QWidget):
         self.firstLineLayout.addWidget(self.eletro)
 
         # Segunda linha
-
         self.freq = QLineEdit("120")
         self.label_freq = QLabel("Frequência : ")
         self.w_freq = QLineEdit(weight)
@@ -117,6 +112,7 @@ class App(QWidget):
         self.label_ST = QLabel("Depressão no ST devido exercício: ")
         self.w_ST = QLineEdit(weight)
         self.w_ST.setFixedWidth(20)
+
 
         self.inclinacao = QLineEdit("0")
         self.label_incli = QLabel("Inclinação no pico no ST: ")
@@ -156,32 +152,51 @@ class App(QWidget):
         self.secondLineLayout.addWidget(self.mio_talio)
         self.secondLineLayout.addWidget(pesquisa)
 
+        # Conectando os layouts
         inputsLayout.addLayout(self.firstLineLayout)
         inputsLayout.addLayout(self.secondLineLayout)
 
-        # Add box layout, add table to box layout and add box layout to widget
         self.mainLayout = QVBoxLayout()
         self.mainLayout.addLayout(inputsLayout)
-        #mainLayout.addWidget(QLineEdit(), 1,1)
         self.setLayout(self.mainLayout)
-
 
         # Show widget
         self.show()
+        self.subtitleLayout = SubLayout()
+        self.subtitleLayout.show()
 
 
-    def createTable(self, topCase):
+    def createTable(self, topCase, topSim):
         # Create table
-
-        #print(self.mainLayout.findChild("tableWidget"))
+        """
+        if self.tableWidget is None:
+            print("não há tabela")
+        else:
+            print("já há uma tabela")
+        """
 
         self.tableWidget = QTableWidget()
         self.tableWidget.setRowCount(10)
         self.tableWidget.setColumnCount(15)
-        self.tableWidget.setItem(0, 0, QTableWidgetItem(str(65)))
-        self.tableWidget.setItem(0, 1, QTableWidgetItem("Cell (1,2)"))
-        self.tableWidget.setItem(1, 0, QTableWidgetItem("Cell (2,1)"))
-        self.tableWidget.setItem(1, 1, QTableWidgetItem("Cell (2,2)"))
+
+        # Preenche a tabela
+        for line in range(10):
+            self.tableWidget.setItem(line, 0, QTableWidgetItem(str(topCase[line].age)))
+            self.tableWidget.setItem(line, 1, QTableWidgetItem(str(topCase[line].sex)))
+            self.tableWidget.setItem(line, 2, QTableWidgetItem(str(topCase[line].cp)))
+            self.tableWidget.setItem(line, 3, QTableWidgetItem(str(topCase[line].trestbps)))
+            self.tableWidget.setItem(line, 4, QTableWidgetItem(str(topCase[line].chol)))
+            self.tableWidget.setItem(line, 5, QTableWidgetItem(str(topCase[line].fbs)))
+            self.tableWidget.setItem(line, 6, QTableWidgetItem(str(topCase[line].restecg)))
+            self.tableWidget.setItem(line, 7, QTableWidgetItem(str(topCase[line].thalach)))
+            self.tableWidget.setItem(line, 8, QTableWidgetItem(str(topCase[line].exang)))
+            self.tableWidget.setItem(line, 9, QTableWidgetItem(str(topCase[line].oldpeak)))
+            self.tableWidget.setItem(line, 10, QTableWidgetItem(str(topCase[line].slope)))
+            self.tableWidget.setItem(line, 11, QTableWidgetItem(str(topCase[line].ca)))
+            self.tableWidget.setItem(line, 12, QTableWidgetItem(str(topCase[line].thal)))
+            self.tableWidget.setItem(line, 13, QTableWidgetItem(str(topCase[line].result)))
+            self.tableWidget.setItem(line, 14, QTableWidgetItem("{:.4}".format(str(topSim[line]*100.0))+"%"))
+
         self.tableWidget.move(0, 0)
         self.tableWidget.setHorizontalHeaderLabels(["Idade","Sexo", "Tipo de dor",
                                                     "Pressão", "Colesterol","Glicose",
@@ -197,6 +212,7 @@ class App(QWidget):
         self.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.mainLayout.addWidget(self.tableWidget)
 
+
     # Preenche a tabela com os 10 casos mais similares
     def refreshTable(self, topCase,topSim):
         """
@@ -204,8 +220,6 @@ class App(QWidget):
             for j in range(12):# coluna
                 self.tableWidget.setItem(i, j, QTableWidgetItem(topCase[i][j]))
         """
-
-
 
 
     @pyqtSlot()
@@ -245,14 +259,102 @@ class App(QWidget):
 
         top, simtop = main.init(att, weights)
 
-        print("Top 10: ", top)
-        print("Similaridade top 10", simtop)
-
         #self.refreshTable(top, simtop)
-        self.createTable(simtop)
+        self.createTable(top, simtop)
 
 
+class SubLayout(QWidget):
 
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Legenda de entradas")
+        self.left = 0
+        self.top = 0
+        self.width = 500
+        self.height = 100
+
+        self.layout = QVBoxLayout()
+
+        self.label_st_age = QLabel("Idade: valores de 0 a Indeterminado.")
+        self.label_st_age.setFont(QFont("Arial", 12))
+
+        self.label_st_sex = QLabel("Sexo:  ")
+        self.label_st_sex.setFont(QFont("Arial", 12))
+        self.label_st_sex_wom = QLabel("* Mulher = 0")
+        self.label_st_sex_man = QLabel("* Homem = 1")
+
+        self.label_st_dor = QLabel("Tipo de dor peitoral:")
+        self.label_st_dor.setFont(QFont("Arial", 12))
+        self.label_st_dor_angina = QLabel("* Angina típica = 1.")
+        self.label_st_dor_abnang = QLabel("* Angina atípica = 2.")
+        self.label_st_dor_notang = QLabel("* Sem dor aginosa = 3.")
+        self.label_st_dor_asympt = QLabel("* Assintomático = 4.")
+
+        self.label_st_pressao = QLabel("Pressão sanguínea: valores de 0 a 200.")
+        self.label_st_pressao.setFont(QFont("Arial", 12))
+        self.label_st_colest = QLabel("Colesterol sérico: valores de 0 a 417.")
+        self.label_st_colest.setFont(QFont("Arial", 12))
+        self.label_st_glic = QLabel("Glicose no sangue: Se maior que 120mg/dL, valor é 1, se não é 0.")
+        self.label_st_glic.setFont(QFont("Arial", 12))
+
+        self.label_st_eletro = QLabel("Resultados eletrocardiograficos: ")
+        self.label_st_eletro.setFont(QFont("Arial", 12))
+        self.label_st_eletro_norm = QLabel("* Normal = 0.")
+        self.label_st_eletro_abn = QLabel("* Anormalidade no segmento ST-T = 1.")
+        self.label_st_eletro_hyper = QLabel("* Hipertrofia ventricular esquerda = 2.")
+
+        self.label_st_freq = QLabel("Frequência cardíaca máxima: valores de 0 a 250.")
+        self.label_st_freq.setFont(QFont("Arial", 12))
+        self.label_st_exang = QLabel("Angina induzida por exercício: Se sim, valor é 1, se não é 0")
+        self.label_st_exang.setFont(QFont("Arial", 12))
+        self.label_st_oldpeak = QLabel("Depressão no segmento ST induzida por exercício: valores float")
+        self.label_st_oldpeak.setFont(QFont("Arial", 12))
+
+        self.label_st_slope = QLabel("Inclinação no pico do segmento ST: ")
+        self.label_st_slope.setFont(QFont("Arial", 12))
+        self.label_st_slope_down = QLabel("* Inclinado para baixo = 3.")
+        self.label_st_slope_flat = QLabel("* Plano = 2.")
+        self.label_st_slope_up = QLabel("* Inclinado para cima = 1.")
+
+        self.label_st_ca = QLabel("Número de artérias visíveis: de 0 a 3")
+        self.label_st_ca.setFont(QFont("Arial", 12))
+
+        self.label_st_thal = QLabel("Viabilidade miocardica com talio: ")
+        self.label_st_thal.setFont(QFont("Arial", 12))
+        self.label_st_thal_sick = QLabel("* Normal = 3.")
+        self.label_st_thal_fix = QLabel("* Defeito corrigido = 6.")
+        self.label_st_thal_rev = QLabel("* Defeito reversível = 7.")
+
+        self.layout.addWidget(self.label_st_age)
+        self.layout.addWidget(self.label_st_sex)
+        self.layout.addWidget(self.label_st_sex_wom)
+        self.layout.addWidget(self.label_st_sex_man)
+        self.layout.addWidget(self.label_st_dor)
+        self.layout.addWidget(self.label_st_dor_angina)
+        self.layout.addWidget(self.label_st_dor_abnang)
+        self.layout.addWidget(self.label_st_dor_notang)
+        self.layout.addWidget(self.label_st_dor_asympt)
+        self.layout.addWidget(self.label_st_pressao)
+        self.layout.addWidget(self.label_st_colest)
+        self.layout.addWidget(self.label_st_glic)
+        self.layout.addWidget(self.label_st_eletro)
+        self.layout.addWidget(self.label_st_eletro_norm)
+        self.layout.addWidget(self.label_st_eletro_abn)
+        self.layout.addWidget(self.label_st_eletro_hyper)
+        self.layout.addWidget(self.label_st_freq)
+        self.layout.addWidget(self.label_st_exang)
+        self.layout.addWidget(self.label_st_oldpeak)
+        self.layout.addWidget(self.label_st_slope)
+        self.layout.addWidget(self.label_st_slope_down)
+        self.layout.addWidget(self.label_st_slope_flat)
+        self.layout.addWidget(self.label_st_slope_up)
+        self.layout.addWidget(self.label_st_ca)
+        self.layout.addWidget(self.label_st_thal)
+        self.layout.addWidget(self.label_st_thal_sick)
+        self.layout.addWidget(self.label_st_thal_fix)
+        self.layout.addWidget(self.label_st_thal_rev)
+
+        self.setLayout(self.layout)
 
 
 
