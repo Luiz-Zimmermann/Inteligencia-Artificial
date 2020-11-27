@@ -101,7 +101,7 @@ class HeartDisease():
 
     # Número de artérias visíveis (ca)
     def similarityCa(self, entry):  # Float (0.0 ~ 3.0)
-        return 1 - ( abs(self.ca - entry) / (self.ca + entry) )
+        return 1 - (abs(self.ca - entry) / (self.ca + entry) )
 
     # Viabilidade miocardica com talio (thal)
     def similarityThal(self, entry): # Float (3.0: sick, 6.0: fix, 7.0: rev)
