@@ -34,8 +34,13 @@ if __name__ == "__main__":
 
     print("População inicial: ", population)
 
-    routes = zeros((cityNumbers, cityNumbers))
-    '''
-    for i in range(len(content)):
-        for j in range(cityNumbers):
-    '''
+    distance = zeros((cityNumbers, cityNumbers))
+    
+    # Montando a matriz das distancias
+    i = 0
+    for j in range(cityNumbers):
+        for k in range(cityNumbers):
+            if (j != k):
+                distance[j][k] = content[i]
+                print(j, " ~ ", k, " = ", distance[j][k])
+                i += 1
