@@ -8,9 +8,12 @@ Algoritmo Genetico -> Solucao para problema do Caixeiro Viajante
 from numpy import *
 from matplotlib.pyplot import *
 from csv import *
+import colorama
 
-
-
+class Cromossomo:
+    def __init__(self, rotas, distanciaTotal):
+        self.rotas = rotas
+        self.distanciaTotal = distanciaTotal
 
 if __name__ == "__main__":
     
@@ -38,9 +41,14 @@ if __name__ == "__main__":
     
     # Montando a matriz das distancias
     i = 0
+    column = cityNumbers
     for j in range(cityNumbers):
-        for k in range(cityNumbers):
+        for k in range(column):
             if (j != k):
                 distance[j][k] = content[i]
                 print(j, " ~ ", k, " = ", distance[j][k])
-                i += 1
+                if i < len(content) - 1:
+                    i += 1
+        column -= 1
+
+    #cromossomo = Cromossomo()
