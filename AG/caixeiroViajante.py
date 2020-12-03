@@ -8,7 +8,7 @@ Algoritmo Genetico -> Solucao para problema do Caixeiro Viajante
 from numpy import *
 from matplotlib.pyplot import *
 from csv import *
-from AG.cromossomo import *
+from cromossomo import *
 import random
 
 # TODO retornar a distancia total do percurso de acordo com as cidades
@@ -91,12 +91,29 @@ def evolution(populacao, iterations):
         populacao = mutation(nova_populacao)
 
 
+def getDistance(rotas, distance):
+    totalDistance = 0
+    rangeCities = zeros(len(rotas))
+    for i in range(len(rotas)):
+        for j in range(cityNumbers):
+            for k in range(cityNumbers):
+                if j != k:
+                    if i >= len(rotas)-1:
+                        totalDistance += 0
+                    elif j+1 == rotas[i] and k+1 == rotas[i+1]:
+                        rangeCities[i] = distance[j][k]
+                        totalDistance += distance[j][k]
+
+    #print("Total distancias: ", rangeCities)
+    return 2 * totalDistance
+
 
 # TODO apresentar gráficos e informações
 if __name__ == "__main__":
     
     # Lendo o arquivo de entrada
-    inputFile = open("input.txt", 'r')
+    inputFile = open("C:\\Users\\lucas\\Desenvolvimento\\inteligencia_artificial\\Inteligencia-Artificial\\AG\\input.txt", 'r')
+    #inputFile = open("input.txt", 'r')
     content = (inputFile.read()).split(";")
     print("Conteudo: ", content)
 
@@ -115,19 +132,19 @@ if __name__ == "__main__":
 
     print("População inicial: ", population)
 
-    distance = zeros((cityNumbers, cityNumbers))
     
     # Montando a matriz das distancias
+    distance = zeros((cityNumbers, cityNumbers))
     i = 0
-    column = cityNumbers
     for j in range(cityNumbers):
-        for k in range(column):
-            if (j != k):
+        for k in range(cityNumbers):
+            if (j != k) and k > j:
                 distance[j][k] = content[i]
-                print(j, " ~ ", k, " = ", distance[j][k])
-                if i < len(content) - 1:
-                    i += 1
-        column -= 1
+                distance[k][j] = content[i]
+                i += 1
+                #print(j, " ~ ", k, " = ", distance[j][k])
+                #         
+    print("Matriz de distâncias: \n", distance)
 
     # Cria a população inicial
     cities = arange(1, cityNumbers+1)
@@ -136,7 +153,7 @@ if __name__ == "__main__":
     population_generator(populacao, cities)
 
     for i in populacao:
-        print("população: ", i.rotas,i.distanciaTotal)
+        print("Indivíduo: ", i.rotas, "\tDistância: ", getDistance(i.rotas, distance))
 
     print("----------------------------------")
     populacao = evaluation(populacao)
