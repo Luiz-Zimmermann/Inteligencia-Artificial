@@ -4,3 +4,4 @@
 ./RBC/.idea
 ./Fuzzy/venv/
 ./Fuzzy/.idea
+__pycache__
