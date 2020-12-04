@@ -8,8 +8,9 @@ Algoritmo Genetico -> Solucao para problema do Caixeiro Viajante
 from numpy import *
 from matplotlib.pyplot import *
 from csv import *
-from cromossomo import *
-#from AG.cromossomo import *
+from AG.cromossomo import *
+from AG.graph import *
+
 import random
 
 def population_generator(population, cities, length):
@@ -154,8 +155,8 @@ def getDistance(rotas, distance):
 # TODO apresentar gráficos e informações
 if __name__ == "__main__":
     # Lendo o arquivo de entrada
-    inputFile = open("C:\\Users\\lucas\\Desenvolvimento\\inteligencia_artificial\\Inteligencia-Artificial\\AG\\input.txt", 'r')
-    #inputFile = open("input.txt", 'r')
+    #inputFile = open("C:\\Users\\lucas\\Desenvolvimento\\inteligencia_artificial\\Inteligencia-Artificial\\AG\\input.txt", 'r')
+    inputFile = open("input.txt", 'r')
     content = (inputFile.read()).split(";")
     #print("Conteudo: ", content)
 
@@ -204,6 +205,7 @@ if __name__ == "__main__":
     mvp = population[0]
     print("Melhor individuo: ", mvp.rotas, mvp.distanciaTotal)
 
+    draw_graph(population,cities)
 
     """
     for i in population:
