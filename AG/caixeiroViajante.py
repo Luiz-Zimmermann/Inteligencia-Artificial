@@ -152,6 +152,14 @@ def getDistance(rotas, distance):
     #print("Total distancias: ", rangeCities)
     return totalDistance
 
+def getRangeBetweenAandB(a, b):
+    for j in range(cityNumbers):
+        for k in range(cityNumbers):
+            if (j != k) and k > j:
+                if j+1 == a and k+1 ==b:
+                    return distance[j][k]
+
+
 # TODO apresentar gráficos e informações
 if __name__ == "__main__":
     # Lendo o arquivo de entrada
