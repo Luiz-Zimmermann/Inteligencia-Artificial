@@ -181,7 +181,7 @@ if __name__ == "__main__":
     #inputFile = open("C:\\Users\\lucas\\Desenvolvimento\\inteligencia_artificial\\Inteligencia-Artificial\\AG\\input.txt", 'r')
     inputFile = open("input.txt", 'r')
     content = (inputFile.read()).split(";")
-    #print("Conteudo: ", content)
+
 
     # Definindo numero de cidades
     cityNumbers = int(content[0])
@@ -208,13 +208,11 @@ if __name__ == "__main__":
                 distance[j][k] = content[i]
                 distance[k][j] = content[i]
                 i += 1
-                #print(j, " ~ ", k, " = ", distance[j][k])
 
-    #print("Matriz de distâncias: \n", distance)
 
     # Cria a população inicial
     cities = arange(1, cityNumbers + 1)
-    #print("Cidades: ", cities)
+
     population = []
     population = population_generator(population, cities, populationMax)
 
@@ -227,8 +225,8 @@ if __name__ == "__main__":
     # Definindo o melhor individuo após as iterações
     mvp = population[0]
     print("\nMelhor individuo: ", mvp.rotas, mvp.distanciaTotal)
-    # Plota o grafico dos melhores valores por geração
 
+    # Plota o grafico dos melhores valores por geração
     plt.title(u"Gráfico Distância mínima X geração")
     plt.xlabel("Geração")
     plt.ylabel("Distância")
@@ -236,6 +234,7 @@ if __name__ == "__main__":
     plt.plot( arange(0, len(minimum_values), 1), minimum_values)
     plt.show()
 
+    # Desenha os caminhos
     draw_graph(population,cities)
 
 

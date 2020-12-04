@@ -101,7 +101,7 @@ def draw_graph_with_distance(population, cities, distance):
     plt.show()
 """
 
-# testes
+# Testes
 if __name__ == "__main__":
     g = nx.Graph()
     path = np.array([1,2,3,4,5])
@@ -119,18 +119,17 @@ if __name__ == "__main__":
         if i <= tam-1:
             node1 = edges[i]
             node2 = edges[i + 1]
-            g.add_edge(node1, node2, color='b', label='cu', weight=4)
+            g.add_edge(node1, node2, color='b', weight=4)
             if i == tam:
-                g.add_edge(edges[len(edges) - 1], edges[0], color='b', label="cu", weight=4)
+                g.add_edge(edges[len(edges) - 1], edges[0], color='b', weight=4)
         else:
             node1 = edges[i]
             node2 = edges[i + 1]
-            g.add_edge(node1, node2, color='r', label='cu', weight=2)
+            g.add_edge(node1, node2, color='r', weight=2)
 
 
-    g.add_edge(edges[len(edges) - 1], edges[tam], color='r', label="cu", weight=2)
+    g.add_edge(edges[len(edges) - 1], edges[tam], color='r', weight=2)
     print(g.edges())
-
 
     colors = nx.get_edge_attributes(g, 'color').values()
     distances = nx.get_edge_attributes(g, 'weight')
