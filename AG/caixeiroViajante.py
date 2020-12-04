@@ -69,7 +69,7 @@ def mutation(population):
 
             # Verifica caso haja algum gene igual nos dois cromossomos
             if not exists(parent1_rna, parent2_rna):
-                print("Tamanho da população antes da mutação: ", len(population))
+                print("\nTamanho da população antes da mutação: ", len(population))
                 print("Filho: ", parent1_rna, parent2_rna, "\tMutação[", iterations, "]\tLimite: ", limit * 2)
 
                 # Geração do filho
@@ -81,30 +81,42 @@ def mutation(population):
                 population.remove(parent2)
 
                 print("Filho: ", new_cromo.rotas, new_cromo.distanciaTotal)
-                print("Tamanho da população apos mutação: ", len(population))
+                print("Tamanho da população apos mutação: ", len(population), "\n")
                 new_population.append(new_cromo)
                 done = True
                 iterations = 0
+
             else:
                 print("Fusão fracassada: ", parent1.rotas, parent2.rotas, "\tMutação[", iterations, "]\tLimite: ", limit * 2)
             iterations += 1
 
         if iterations >= limit * 2:
-            print("Passou do limite!!")
-            print(new_population)
+            print("\nPassou do limite!!")
+
             return new_population
 
     if len(population) == 1: new_population.append(population.pop(0))
-    print(new_population)
+
     return new_population
 
 def evolution(population, cities, iterations):
 
+    minimum_values = []
+
+    print("\n##################################")
+    print("Geração original: ")
+    for cromo in population:
+        print("Individuo: ", cromo.rotas, cromo.distanciaTotal)
+
     for i in range(iterations):
-        print("##################################")
+        print("\n##################################")
         print("Geração: ", i)
         new_population = mutation(population)
-        print("População após mutação: ", new_population)
+        print("\nPopulação após mutação: ")
+        for cromo in new_population:
+            print("Individuo: ", cromo.rotas, cromo.distanciaTotal)
+        print("-------------------------------------")
+
         best_population = evaluation(new_population)
 
         population_gap = len(population) - len(best_population)
@@ -113,15 +125,15 @@ def evolution(population, cities, iterations):
         new_population = population_generator(new_population, cities, population_gap)
 
         print("-------------------------------------")
-        print("Nova população: ")
+        print("Próxima população: ")
         for cromo in new_population:
             print("Individuo: ", cromo.rotas, cromo.distanciaTotal)
-        print("Melhor população: ")
+        print("Melhor da população anterior: ")
         for cromo in best_population:
             print("Individuo: ", cromo.rotas, cromo.distanciaTotal)
         print("-------------------------------------")
 
-        print("População evoluida: ", len(new_population), len(best_population))
+        print("Nova população : ", len(new_population), len(best_population))
         next_generation = new_population + best_population
 
         population = next_generation
@@ -130,7 +142,10 @@ def evolution(population, cities, iterations):
         print("-------------------------------------")
         print("##################################")
 
-    return evaluation(population)
+        # Armazena os menores valores atingidos durante a evolução
+        minimum_values.append(evaluation(population)[0].distanciaTotal)
+
+    return evaluation(population), minimum_values
 
 def getDistance(rotas, distance):
     # Calcula as distâncias a partir dos cromossomos (rotas)
@@ -152,7 +167,7 @@ def getDistance(rotas, distance):
     #print("Total distancias: ", rangeCities)
     return totalDistance
 
-def getRangeBetweenAandB(a, b):
+def getRangeBetweenAandB(a, b, cityNumbers, distance):
     for j in range(cityNumbers):
         for k in range(cityNumbers):
             if (j != k) and k > j:
@@ -204,37 +219,24 @@ if __name__ == "__main__":
     population = population_generator(population, cities, populationMax)
 
     # Iniciando a evolução, definindo número de iterações
-    population = evolution(population, cities, int(input("Quantas iterações?: ")))
-    print("Última geração: \n")
+    population, minimum_values = evolution(population, cities, int(input("Quantas iterações?: ")))
+    print("Top 5 melhores indivíduos: \n")
     for cromo in population:
         print("Individuo", cromo.rotas, cromo.distanciaTotal)
 
     # Definindo o melhor individuo após as iterações
     mvp = population[0]
-    print("Melhor individuo: ", mvp.rotas, mvp.distanciaTotal)
+    print("\nMelhor individuo: ", mvp.rotas, mvp.distanciaTotal)
+    # Plota o grafico dos melhores valores por geração
+
+    plt.title(u"Gráfico Distância mínima X geração")
+    plt.xlabel("Geração")
+    plt.ylabel("Distância")
+    plt.grid(1)
+    plt.plot( arange(0, len(minimum_values), 1), minimum_values)
+    plt.show()
 
     draw_graph(population,cities)
 
-    """
-    for i in population:
-        print("Indivíduo: ", i.rotas, "\tDistância: ", getDistance(i.rotas, distance))
-
-    print("----------------------------------")
-    population = evaluation(population)
-    for i in population:
-        print("população: ", i.rotas, i.distanciaTotal)
-    print("-------------------------------------")
-
-    population = mutation(population)
-
-    print("Retornou da mutação!!")
-
-    if len(population) == 0:
-        print("Não fez mutação")
-    else:
-        print("Fez mutação")
-        for i in population:
-            print("população: ", i.rotas, i.distanciaTotal)
-    """
 
 
